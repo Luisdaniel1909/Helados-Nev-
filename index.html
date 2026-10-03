@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#ff5fa2" />
+  <title>NEVÉ — Helado hecho para sonreír</title>
+
+  <style>
+    :root{
+      --pink:#ff5fa2;
+      --pink-2:#ff89ba;
+      --pink-3:#ffd7e8;
+      --pink-soft:#fff1f7;
+      --cream:#fff9f4;
+      --berry:#8e174b;
+      --red:#df336f;
+      --choco:#4f2e34;
+      --text:#4a2340;
+      --muted:#8f687d;
+      --white:#ffffff;
+      --yellow:#ffd96c;
+      --mint:#baf4df;
+      --shadow:0 24px 60px rgba(187, 56, 113, .16);
+      --radius:32px;
+      --max:1240px;
+    }
+
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+    }
+
+    html{ scroll-behavior:smooth; }
+
+    body{
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255,255,255,.95), transparent 21%),
+        linear-gradient(180deg,#fff6fa 0%,#ffe6f0 47%,#fff8f3 100%);
+      overflow-x:hidden;
+    }
+
+    a{ color:inherit; text-decoration:none; }
+
+    .shell{
+      width:min(calc(100% - 40px), var(--max));
+      margin-inline:auto;
+    }
+
+    .nav{
+      position:fixed;
+      left:50%;
+      top:18px;
+      transform:translateX(-50%);
+      z-index:50;
+      width:min(calc(100% - 36px),var(--max));
+      padding:12px 14px 12px 17px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(255,255,255,.92);
+      backdrop-filter:blur(22px);
+      -webkit-backdrop-filter:blur(22px);
+      border-radius:18px;
+      box-shadow:0 16px 45px rgba(160,52,99,.12);
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-size:1.02rem;
+      font-weight:900;
+      letter-spacing:.13em;
+      color:var(--berry);
+    }
+
+    .brand-icon{
+      width:36px;
+      height:36px;
+      display:grid;
+      place-items:center;
+      border-radius:12px;
+      background:linear-gradient(135deg,var(--pink),#ff9dc5);
+      color:white;
+      box-shadow:0 10px 24px rgba(255,95,162,.28);
+      font-size:1rem;
+    }
+
+    .nav-links{
+      display:flex;
+      align-items:center;
+      gap:28px;
+      font-size:.86rem;
+      color:#765164;
+      font-weight:650;
+    }
+
+    .nav-links a{
+      transition:.25s ease;
+    }
+
+    .nav-links a:hover{
+      color:var(--pink);
+    }
+
+    .nav-cta{
+      padding:10px 14px;
+      color:white !important;
+      background:var(--berry);
+      border-radius:12px;
+      box-shadow:0 10px 24px rgba(142,23,75,.17);
+    }
+
+    .hero{
+      min-height:100svh;
+      padding:128px 0 64px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:52px;
+      align-items:center;
+      position:relative;
+    }
+
+    .hero-copy{
+      position:relative;
+      z-index:3;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:8px 13px;
+      border-radius:999px;
+      background:rgba(255,255,255,.72);
+      border:1px solid rgba(255,255,255,.95);
+      box-shadow:0 10px 30px rgba(218,86,145,.09);
+      color:var(--berry);
+      font-weight:800;
+      font-size:.75rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      margin-bottom:23px;
+    }
+
+    .pill i{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--pink);
+      box-shadow:0 0 0 6px rgba(255,95,162,.12);
+    }
+
+    h1{
+      font-size:clamp(4rem,7.3vw,7.15rem);
+      line-height:.86;
+      letter-spacing:-.065em;
+      color:var(--berry);
+      font-weight:900;
+      max-width:720px;
+    }
+
+    h1 .soft{
+      display:block;
+      color:var(--pink);
+      font-family:Georgia, "Times New Roman", serif;
+      font-style:italic;
+      font-weight:700;
+      letter-spacing:-.055em;
+    }
+
+    .hero-lead{
+      max-width:600px;
+      margin-top:28px;
+      font-size:clamp(1rem,1.5vw,1.18rem);
+      line-height:1.72;
+      color:var(--muted);
+    }
+
+    .actions{
+      margin-top:30px;
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:13px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:14px 19px;
+      border-radius:14px;
+      font-size:.91rem;
+      font-weight:800;
+      transition:.28s ease;
+    }
+
+    .btn-primary{
+      color:white;
+      background:linear-gradient(135deg,var(--pink),#f7448c);
+      box-shadow:0 15px 32px rgba(255,95,162,.24);
+    }
+
+    .btn-primary:hover{
+      transform:translateY(-3px) rotate(-1deg);
+      box-shadow:0 20px 40px rgba(255,95,162,.31);
+    }
+
+    .btn-secondary{
+      color:var(--berry);
+      background:rgba(255,255,255,.72);
+      border:1px solid white;
+      box-shadow:0 12px 28px rgba(184,72,120,.08);
+    }
+
+    .btn-secondary:hover{
+      transform:translateY(-2px);
+      background:white;
+    }
+
+    .social-proof{
+      margin-top:34px;
+      display:flex;
+      gap:16px;
+      align-items:center;
+      color:#9b7186;
+      font-size:.82rem;
+    }
+
+    .stars{
+      color:#ffb128;
+      letter-spacing:.07em;
+      font-size:.95rem;
+    }
+
+    .visual{
+      position:relative;
+      min-height:650px;
+      display:grid;
+      place-items:center;
+    }
+
+    .blob{
+      position:absolute;
+      width:550px;
+      height:550px;
+      border-radius:44% 56% 65% 35% / 41% 39% 61% 59%;
+      background:
+        radial-gradient(circle at 28% 25%, rgba(255,255,255,.95), transparent 22%),
+        linear-gradient(135deg,#ffc6df,#ff75ae 74%);
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.45),
+        0 40px 90px rgba(221,73,135,.22);
+      transform:rotate(-8deg);
+      animation:morph 8s ease-in-out infinite;
+    }
+
+    @keyframes morph{
+      0%,100%{
+        border-radius:44% 56% 65% 35% / 41% 39% 61% 59%;
+        transform:rotate(-8deg) scale(1);
+      }
+      50%{
+        border-radius:57% 43% 45% 55% / 55% 62% 38% 45%;
+        transform:rotate(-4deg) scale(1.03);
+      }
+    }
+
+    .icecream{
+      position:relative;
+      z-index:4;
+      width:330px;
+      height:550px;
+      transform:rotate(6deg);
+      filter:drop-shadow(0 32px 34px rgba(103,29,62,.20));
+    }
+
+    .scoop{
+      position:absolute;
+      width:210px;
+      height:190px;
+      border-radius:48% 52% 45% 55% / 55% 49% 51% 45%;
+      left:60px;
+      background:
+        radial-gradient(circle at 32% 26%,rgba(255,255,255,.82),transparent 18%),
+        radial-gradient(circle at 65% 58%,rgba(255,255,255,.18),transparent 22%),
+        linear-gradient(145deg,#ffbad7,#ff5d9f);
+      box-shadow:
+        inset -18px -20px 30px rgba(181,36,100,.08),
+        0 10px 22px rgba(168,46,99,.17);
+    }
+
+    .scoop.s1{ top:46px; z-index:5; }
+    .scoop.s2{
+      top:152px;
+      left:26px;
+      width:180px;
+      height:164px;
+      background:
+        radial-gradient(circle at 34% 25%,rgba(255,255,255,.75),transparent 20%),
+        linear-gradient(145deg,#fff3bb,#ffc85f);
+      transform:rotate(-13deg);
+      z-index:4;
+    }
+
+    .scoop.s3{
+      top:151px;
+      left:137px;
+      width:176px;
+      height:165px;
+      background:
+        radial-gradient(circle at 36% 26%,rgba(255,255,255,.72),transparent 19%),
+        linear-gradient(145deg,#c7f6e7,#73ddba);
+      transform:rotate(13deg);
+      z-index:3;
+    }
+
+    .cherry{
+      position:absolute;
+      top:16px;
+      left:146px;
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:radial-gradient(circle at 35% 25%,#ffb0be 0 10%,#e73b65 22%,#b71645 75%);
+      z-index:9;
+      box-shadow:0 8px 16px rgba(156,28,66,.25);
+    }
+
+    .cherry::after{
+      content:"";
+      position:absolute;
+      width:44px;
+      height:54px;
+      border:5px solid #5c9f58;
+      border-left-color:transparent;
+      border-bottom-color:transparent;
+      border-radius:0 50% 0 0;
+      left:19px;
+      top:-38px;
+      transform:rotate(-16deg);
+    }
+
+    .cone{
+      position:absolute;
+      top:262px;
+      left:83px;
+      width:165px;
+      height:270px;
+      background:
+        repeating-linear-gradient(35deg,transparent 0 17px,rgba(122,78,42,.20) 18px 20px),
+        repeating-linear-gradient(-35deg,transparent 0 17px,rgba(122,78,42,.16) 18px 20px),
+        linear-gradient(150deg,#f5c66e,#ca8646);
+      clip-path:polygon(0 0,100% 0,51% 100%);
+      z-index:2;
+    }
+
+    .drip{
+      position:absolute;
+      top:231px;
+      left:72px;
+      width:190px;
+      height:70px;
+      background:#ff6ca9;
+      border-radius:18px 18px 38px 38px;
+      z-index:6;
+    }
+
+    .drip::before,
+    .drip::after{
+      content:"";
+      position:absolute;
+      top:36px;
+      width:30px;
+      height:52px;
+      border-radius:0 0 20px 20px;
+      background:#ff6ca9;
+    }
+
+    .drip::before{ left:34px; }
+    .drip::after{
+      left:118px;
+      height:38px;
+    }
+
+    .spark{
+      position:absolute;
+      z-index:8;
+      font-size:2rem;
+      animation:float 5s ease-in-out infinite;
+      user-select:none;
+    }
+
+    .spark.one{ top:106px; left:5%; transform:rotate(-12deg); }
+    .spark.two{ right:3%; top:125px; animation-delay:1s; }
+    .spark.three{ left:2%; bottom:95px; animation-delay:2s; }
+
+    @keyframes float{
+      0%,100%{ transform:translateY(0) rotate(-8deg); }
+      50%{ transform:translateY(-15px) rotate(8deg); }
+    }
+
+    .float-card{
+      position:absolute;
+      z-index:10;
+      padding:14px 16px;
+      background:rgba(255,255,255,.82);
+      border:1px solid rgba(255,255,255,.95);
+      backdrop-filter:blur(16px);
+      border-radius:18px;
+      box-shadow:0 16px 40px rgba(137,46,89,.12);
+    }
+
+    .float-card strong{
+      display:block;
+      font-size:1.18rem;
+      color:var(--berry);
+    }
+
+    .float-card span{
+      font-size:.72rem;
+      color:#9a7084;
+    }
+
+    .float-card.a{
+      left:-6px;
+      top:90px;
+      transform:rotate(-5deg);
+    }
+
+    .float-card.b{
+      right:-12px;
+      bottom:112px;
+      transform:rotate(5deg);
+    }
+
+    .ticker{
+      background:var(--berry);
+      color:#ffe8f2;
+      overflow:hidden;
+      transform:rotate(-1deg);
+      margin-inline:-10px;
+      border-top:4px solid white;
+      border-bottom:4px solid white;
+      box-shadow:0 18px 40px rgba(104,26,63,.13);
+    }
+
+    .ticker-track{
+      display:flex;
+      width:max-content;
+      gap:36px;
+      padding:15px 0;
+      animation:marquee 20s linear infinite;
+      font-size:.76rem;
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      font-weight:800;
+    }
+
+    .ticker-track span{
+      display:flex;
+      gap:36px;
+      align-items:center;
+      white-space:nowrap;
+    }
+
+    .ticker-track i{
+      width:8px;
+      height:8px;
+      border-radius:50%;
+      background:var(--pink-2);
+      box-shadow:0 0 0 5px rgba(255,137,186,.13);
+    }
+
+    @keyframes marquee{
+      to{ transform:translateX(-50%); }
+    }
+
+    section{
+      padding:100px 0;
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      gap:28px;
+      margin-bottom:40px;
+    }
+
+    .section-head .kicker{
+      color:var(--pink);
+      text-transform:uppercase;
+      letter-spacing:.15em;
+      font-size:.73rem;
+      font-weight:900;
+      margin-bottom:10px;
+    }
+
+    .section-head h2{
+      font-size:clamp(2.6rem,5vw,4.8rem);
+      line-height:.95;
+      letter-spacing:-.055em;
+      color:var(--berry);
+      max-width:790px;
+    }
+
+    .section-head p{
+      max-width:420px;
+      color:#956a80;
+      line-height:1.65;
+    }
+
+    .flavors{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+    }
+
+    .flavor{
+      position:relative;
+      min-height:390px;
+      border-radius:30px;
+      padding:24px;
+      overflow:hidden;
+      background:white;
+      border:1px solid rgba(255,255,255,.95);
+      box-shadow:var(--shadow);
+      transition:.35s ease;
+      isolation:isolate;
+    }
+
+    .flavor:hover{
+      transform:translateY(-7px) rotate(-.7deg);
+    }
+
+    .flavor:nth-child(2):hover{ transform:translateY(-7px) rotate(.7deg); }
+
+    .flavor .tag{
+      position:relative;
+      z-index:4;
+      display:inline-flex;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.66);
+      color:var(--berry);
+      font-size:.69rem;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+    }
+
+    .flavor h3{
+      position:absolute;
+      z-index:4;
+      left:24px;
+      bottom:54px;
+      font-size:1.55rem;
+      color:var(--berry);
+      letter-spacing:-.03em;
+    }
+
+    .flavor p{
+      position:absolute;
+      z-index:4;
+      left:24px;
+      bottom:25px;
+      color:#956b80;
+      font-size:.82rem;
+    }
+
+    .flavor-art{
+      position:absolute;
+      inset:0;
+      z-index:1;
+    }
+
+    .strawberry{
+      background:
+        radial-gradient(circle at 70% 28%,#fff 0 8px,transparent 9px),
+        radial-gradient(circle at 28% 48%,rgba(255,255,255,.4) 0 7px,transparent 8px),
+        linear-gradient(155deg,#ffe1ed 0%,#ff9ec5 70%);
+    }
+
+    .pistachio{
+      background:
+        radial-gradient(circle at 70% 28%,#fff 0 8px,transparent 9px),
+        linear-gradient(155deg,#f5ffe9 0%,#b6e998 70%);
+    }
+
+    .chocolate{
+      background:
+        radial-gradient(circle at 65% 27%,rgba(255,255,255,.65) 0 8px,transparent 9px),
+        linear-gradient(155deg,#f7e0d5 0%,#a76453 73%);
+    }
+
+    .mini-cup{
+      position:absolute;
+      width:190px;
+      height:160px;
+      left:50%;
+      top:45%;
+      transform:translate(-50%,-50%);
+      z-index:2;
+    }
+
+    .mini-scoop{
+      position:absolute;
+      width:138px;
+      height:116px;
+      border-radius:50%;
+      top:0;
+      left:26px;
+      background:linear-gradient(145deg,#ffcfdf,#ff5f9d);
+      box-shadow:inset -15px -16px 20px rgba(163,35,91,.08);
+    }
+
+    .pistachio .mini-scoop{
+      background:linear-gradient(145deg,#dcf7c7,#8ed068);
+    }
+
+    .chocolate .mini-scoop{
+      background:linear-gradient(145deg,#c38474,#673b34);
+    }
+
+    .cup{
+      position:absolute;
+      left:35px;
+      top:84px;
+      width:120px;
+      height:86px;
+      background:rgba(255,255,255,.93);
+      clip-path:polygon(0 0,100% 0,85% 100%,15% 100%);
+      box-shadow:0 14px 24px rgba(107,38,68,.12);
+    }
+
+    .cup::after{
+      content:"NEVÉ";
+      position:absolute;
+      inset:0;
+      display:grid;
+      place-items:center;
+      color:var(--berry);
+      font-weight:950;
+      letter-spacing:.08em;
+      font-size:.8rem;
+    }
+
+    .story{
+      display:grid;
+      grid-template-columns:.9fr 1.1fr;
+      gap:20px;
+      align-items:stretch;
+    }
+
+    .story-visual{
+      min-height:480px;
+      border-radius:30px;
+      overflow:hidden;
+      position:relative;
+      background:
+        radial-gradient(circle at 45% 36%,rgba(255,255,255,.9),transparent 15%),
+        linear-gradient(145deg,#ff8fba,#ff4f97);
+      box-shadow:var(--shadow);
+    }
+
+    .story-visual::before{
+      content:"";
+      position:absolute;
+      width:340px;
+      height:340px;
+      border-radius:50%;
+      background:#fff5f8;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      box-shadow:0 0 0 40px rgba(255,255,255,.13);
+    }
+
+    .big-cup{
+      position:absolute;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-44%) rotate(-5deg);
+      width:240px;
+      height:300px;
+      z-index:2;
+    }
+
+    .big-cup .top{
+      position:absolute;
+      width:210px;
+      height:140px;
+      border-radius:50%;
+      left:15px;
+      background:linear-gradient(145deg,#ffd1e2,#ff679f);
+    }
+
+    .big-cup .body{
+      position:absolute;
+      width:178px;
+      height:180px;
+      left:31px;
+      top:108px;
+      background:#fff;
+      clip-path:polygon(0 0,100% 0,85% 100%,15% 100%);
+      display:grid;
+      place-items:center;
+      color:var(--berry);
+      font-size:1.5rem;
+      letter-spacing:.1em;
+      font-weight:950;
+    }
+
+    .story-copy{
+      border-radius:30px;
+      padding:52px;
+      background:rgba(255,255,255,.72);
+      border:1px solid white;
+      box-shadow:0 18px 50px rgba(177,68,117,.08);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+    }
+
+    .story-copy .kicker{
+      color:var(--pink);
+      font-size:.74rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:900;
+      margin-bottom:16px;
+    }
+
+    .story-copy h2{
+      font-size:clamp(2.5rem,4vw,4.2rem);
+      line-height:.98;
+      letter-spacing:-.05em;
+      color:var(--berry);
+    }
+
+    .story-copy p{
+      margin-top:22px;
+      color:#8f687c;
+      line-height:1.75;
+      max-width:630px;
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:12px;
+      margin-top:30px;
+    }
+
+    .feature{
+      padding:16px;
+      border-radius:18px;
+      background:#fff7fa;
+      border:1px solid #ffe4ef;
+    }
+
+    .feature b{
+      display:block;
+      color:var(--berry);
+      font-size:.86rem;
+      margin-bottom:5px;
+    }
+
+    .feature span{
+      color:#9d788a;
+      font-size:.75rem;
+      line-height:1.4;
+    }
+
+    .cta{
+      margin-bottom:48px;
+      border-radius:34px;
+      min-height:360px;
+      padding:55px;
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      align-items:center;
+      gap:26px;
+      overflow:hidden;
+      position:relative;
+      background:
+        radial-gradient(circle at 86% 12%,rgba(255,255,255,.34),transparent 19%),
+        linear-gradient(135deg,var(--berry),#c62d6a 64%,#ff5fa2);
+      box-shadow:0 28px 70px rgba(119,28,70,.22);
+      color:white;
+    }
+
+    .cta::after{
+      content:"";
+      position:absolute;
+      width:250px;
+      height:250px;
+      border:34px solid rgba(255,255,255,.08);
+      border-radius:50%;
+      right:-40px;
+      bottom:-90px;
+    }
+
+    .cta .kicker{
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:.72rem;
+      font-weight:900;
+      color:#ffc6de;
+    }
+
+    .cta h2{
+      margin-top:12px;
+      font-size:clamp(2.7rem,5vw,4.9rem);
+      line-height:.92;
+      letter-spacing:-.055em;
+      max-width:700px;
+    }
+
+    .cta p{
+      margin-top:18px;
+      max-width:590px;
+      color:#f7cadd;
+      line-height:1.7;
+    }
+
+    .cta-side{
+      z-index:2;
+      display:flex;
+      align-items:flex-end;
+      flex-direction:column;
+      gap:13px;
+    }
+
+    .cta-side .btn{
+      background:white;
+      color:var(--berry);
+      min-width:220px;
+    }
+
+    .cta-side small{
+      text-align:right;
+      color:#f8c8dc;
+      line-height:1.5;
+    }
+
+    footer{
+      padding:5px 0 38px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:20px;
+      color:#946d81;
+      font-size:.78rem;
+    }
+
+    footer .links{
+      display:flex;
+      gap:18px;
+    }
+
+    .reveal{
+      opacity:0;
+      transform:translateY(20px);
+      transition:.8s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .reveal.visible{
+      opacity:1;
+      transform:translateY(0);
+    }
+
+    @media (max-width:980px){
+      .nav-links{ display:none; }
+
+      .hero{
+        grid-template-columns:1fr;
+        padding-top:128px;
+      }
+
+      .visual{ min-height:570px; }
+
+      .flavors{
+        grid-template-columns:1fr;
+      }
+
+      .story{
+        grid-template-columns:1fr;
+      }
+
+      .cta{
+        grid-template-columns:1fr;
+      }
+
+      .cta-side{
+        align-items:flex-start;
+      }
+
+      .cta-side small{ text-align:left; }
+
+      .section-head{
+        align-items:flex-start;
+        flex-direction:column;
+      }
+    }
+
+    @media (max-width:640px){
+      .shell{
+        width:min(calc(100% - 24px),var(--max));
+      }
+
+      .nav{
+        width:calc(100% - 24px);
+        top:10px;
+      }
+
+      h1{
+        font-size:clamp(3.5rem,18vw,5.4rem);
+      }
+
+      .visual{
+        min-height:470px;
+      }
+
+      .blob{
+        width:390px;
+        height:390px;
+      }
+
+      .icecream{
+        transform:scale(.76) rotate(5deg);
+      }
+
+      .float-card.a{
+        left:4px;
+        top:54px;
+      }
+
+      .float-card.b{
+        right:0;
+        bottom:55px;
+      }
+
+      section{
+        padding:75px 0;
+      }
+
+      .story-copy{
+        padding:32px 24px;
+      }
+
+      .features{
+        grid-template-columns:1fr;
+      }
+
+      .cta{
+        padding:36px 25px;
+      }
+
+      footer{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="nav">
+    <a href="#" class="brand">
+      <span class="brand-icon">✦</span>
+      <span>NEVÉ</span>
+    </a>
+
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#sabores">Sabores</a>
+      <a href="#historia">Nuestra historia</a>
+      <a href="#locales">Locales</a>
+      <a class="nav-cta" href="#pedido">Pide ahora</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero shell">
+      <div class="hero-copy">
+        <div class="pill"><i></i> Helado artesanal · Hecho todos los días</div>
+
+        <h1>
+          La vida sabe
+          <span class="soft">mejor con helado.</span>
+        </h1>
+
+        <p class="hero-lead">
+          Cremoso, artesanal y peligrosamente delicioso. Creamos sabores que se ven
+          tan bien como saben, con ingredientes reales y cero días aburridos.
+        </p>
+
+        <div class="actions">
+          <a href="#sabores" class="btn btn-primary">Descubre los sabores <span>↗</span></a>
+          <a href="#pedido" class="btn btn-secondary">Pedir a domicilio <span>→</span></a>
+        </div>
+
+        <div class="social-proof">
+          <div class="stars">★★★★★</div>
+          <span>4.9/5 · Más de 2,800 amantes del helado felices</span>
+        </div>
+      </div>
+
+      <div class="visual" aria-label="Cono de helado artesanal">
+        <div class="blob"></div>
+
+        <div class="spark one">✦</div>
+        <div class="spark two">♡</div>
+        <div class="spark three">✿</div>
+
+        <div class="icecream">
+          <div class="cherry"></div>
+          <div class="scoop s1"></div>
+          <div class="scoop s2"></div>
+          <div class="scoop s3"></div>
+          <div class="drip"></div>
+          <div class="cone"></div>
+        </div>
+
+        <div class="float-card a">
+          <strong>100%</strong>
+          <span>ingredientes reales</span>
+        </div>
+
+        <div class="float-card b">
+          <strong>+18</strong>
+          <span>sabores irresistibles</span>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker">
+      <div class="ticker-track">
+        <span>
+          Hecho con amor <i></i>
+          Cremoso de verdad <i></i>
+          Sabores de temporada <i></i>
+          Ingredientes reales <i></i>
+          Felicidad en cada cucharada <i></i>
+        </span>
+
+        <span>
+          Hecho con amor <i></i>
+          Cremoso de verdad <i></i>
+          Sabores de temporada <i></i>
+          Ingredientes reales <i></i>
+          Felicidad en cada cucharada <i></i>
+        </span>
+      </div>
+    </div>
+
+    <section class="shell" id="sabores">
+      <div class="section-head reveal">
+        <div>
+          <div class="kicker">Nuestros favoritos</div>
+          <h2>Sabores que merecen su propia foto.</h2>
+        </div>
+
+        <p>
+          Recetas suaves, coloridas y llenas de personalidad. Elige tu favorito,
+          combínalos o pruébalos todos. Aquí nadie juzga.
+        </p>
+      </div>
+
+      <div class="flavors">
+        <article class="flavor reveal">
+          <div class="flavor-art strawberry">
+            <div class="mini-cup">
+              <div class="mini-scoop"></div>
+              <div class="cup"></div>
+            </div>
+          </div>
+          <span class="tag">Best seller</span>
+          <h3>Fresa Nube</h3>
+          <p>Fresa natural · Vainilla · Crema</p>
+        </article>
+
+        <article class="flavor reveal">
+          <div class="flavor-art pistachio">
+            <div class="mini-cup">
+              <div class="mini-scoop"></div>
+              <div class="cup"></div>
+            </div>
+          </div>
+          <span class="tag">Favorito del chef</span>
+          <h3>Pistache Dream</h3>
+          <p>Pistache tostado · Leche · Sal marina</p>
+        </article>
+
+        <article class="flavor reveal">
+          <div class="flavor-art chocolate">
+            <div class="mini-cup">
+              <div class="mini-scoop"></div>
+              <div class="cup"></div>
+            </div>
+          </div>
+          <span class="tag">Intenso</span>
+          <h3>Choco Velvet</h3>
+          <p>Cacao oscuro · Brownie · Crema</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="shell" id="historia">
+      <div class="story">
+        <div class="story-visual reveal">
+          <div class="big-cup">
+            <div class="top"></div>
+            <div class="body">NEVÉ</div>
+          </div>
+        </div>
+
+        <div class="story-copy reveal">
+          <div class="kicker">No hacemos helado normal</div>
+          <h2>Hacemos pequeños momentos de felicidad.</h2>
+
+          <p>
+            NEVÉ nació con una idea sencilla: convertir un antojo en una experiencia.
+            Cada sabor se prepara en lotes pequeños, con ingredientes frescos y recetas
+            diseñadas para sorprender desde la primera cucharada.
+          </p>
+
+          <div class="features">
+            <div class="feature">
+              <b>Hecho diario</b>
+              <span>Pequeños lotes para máxima frescura.</span>
+            </div>
+
+            <div class="feature">
+              <b>Sin aburrimiento</b>
+              <span>Nuevos sabores y ediciones limitadas.</span>
+            </div>
+
+            <div class="feature">
+              <b>Ingredientes reales</b>
+              <span>Fruta, cacao, leche y mucho amor.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="shell" id="pedido">
+      <div class="cta reveal">
+        <div>
+          <div class="kicker">¿Ya se te antojó?</div>
+          <h2>Tu próximo sabor favorito está a un clic.</h2>
+          <p>
+            Arma tu caja, mezcla sabores y recibe una dosis de felicidad directamente
+            en tu puerta. Sí, compartir es opcional.
+          </p>
+        </div>
+
+        <div class="cta-side">
+          <a href="#" class="btn">Ordenar ahora ↗</a>
+          <small>
+            Entrega local · Pickup disponible<br>
+            Lun–Dom · 12:00–21:00
+          </small>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell" id="locales">
+    <div>© 2026 NEVÉ Ice Cream Co. · Hecho con ♡ y mucha crema.</div>
+    <div class="links">
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Menú</a>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.14 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
